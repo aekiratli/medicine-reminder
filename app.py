@@ -113,11 +113,11 @@ async def help_(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(reply_text, parse_mode='HTML')
 
 async def check_overdue_medicines(context: ContextTypes.DEFAULT_TYPE):
-    now = datetime.now()
+    now = int(datetime.now().timestamp())
     medicines = session.query(MedicineInterval).all()
 
     for medicine in medicines:
-        next_take_time = datetime.fromtimestamp(medicine.next_run)
+        next_take_time = medicine.next_run
         if next_take_time <= now:
             # Send notification to the user
             chat_id = medicine.user.chat_id
