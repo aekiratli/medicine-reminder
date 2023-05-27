@@ -118,6 +118,7 @@ async def check_overdue_medicines(context: ContextTypes.DEFAULT_TYPE):
 
     for medicine in medicines:
         next_take_time = medicine.next_run
+        print(medicine.user.id, next_take_time, now, next_take_time > now)
         if next_take_time <= now:
             # Send notification to the user
             chat_id = medicine.user.chat_id
