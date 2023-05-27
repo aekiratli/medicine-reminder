@@ -75,7 +75,7 @@ async def add_new_medicine(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         await update.message.reply_text(
             f"Medicine '{medicine_name}' has been added.\n"
             f"Next run: {next_run_time.strftime('%Y-%m-%d %H:%M')}\n"
-            f"Time difference: {time_difference_str}"
+            f"Time remaining to medicine: {time_difference_str}"
         )
     except IntegrityError:
         # Handle the unique constraint violation error
@@ -127,6 +127,7 @@ async def check_overdue_medicines(context: ContextTypes.DEFAULT_TYPE):
             await context.bot.send_message(chat_id=chat_id, text=message)
 
             # Update the next take time for the medicine
+            next_take_time = datetime.fromtimestamp(medicine.next_run)
             next_take_time += timedelta(days=int(medicine.interval))
             medicine.next_run = int(next_take_time.timestamp())
 
